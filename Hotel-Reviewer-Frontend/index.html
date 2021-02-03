@@ -9,23 +9,28 @@
   <script defer src="script.js"></script>
 </head>
 <body>
-  <button data-modal-target="#modal">Open Modal</button>
+  <button data-modal-target="#modal">Sign Up!</button>
   <div class="modal" id="modal">
     <div class="modal-header">
-      <div class="title">Example Modal</div>
+      <div class="title">Create Account!
+      </div>
       <button data-close-button class="close-button">&times;</button>
     </div>
     <div class="modal-body">
-      <form name="sign-in">
-        Sign-in<input type="text"></input>
+      <form class="sign-up">
+        Username: <input type="text"></input>
+        <br>
+        Password: <input type="text"></input>
+        <br>
+         <input type="submit" value="Sign Up!"></input>
       </form>
     </div>
   </div>
   <div id="overlay"></div>
   <main>
     <nav>
-      <button class="btnUp">Sign Up!</button>
-      <button class="btnIn">Sign In!</button>
+      <!-- <button class="btnUp">Sign Up!</button>
+      <button class="btnIn">Sign In!</button> -->
     </nav>
   </main>
 </body>

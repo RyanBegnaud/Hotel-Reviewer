@@ -1,10 +1,14 @@
 const hotelUrl = "http://localhost:3000/hotels"
 const proxyurl = "https://cors-anywhere.herokuapp.com/";
+
 document.addEventListener('DOMContentLoaded', getHotels())
-document.addEventListener("DOMContentLoaded", () =>{
-    const signIn = document.querySelector("button.btnIn")
-    signIn.addEventListener("click", () => addListeners())
-})
+
+// document.addEventListener("DOMContentLoaded", () =>{
+//     const signIn = document.querySelector("button.btnIn")
+//     signIn.addEventListener("click", () => addListeners())
+// })
+
+document.addEventListener("DOMContentLoaded", )
 
 function getHotels(hotels) {
     fetch("http://localhost:3000/hotels")
