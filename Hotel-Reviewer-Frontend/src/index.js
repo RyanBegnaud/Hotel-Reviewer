@@ -8,7 +8,31 @@ document.addEventListener('DOMContentLoaded', getHotels())
 //     signIn.addEventListener("click", () => addListeners())
 // })
 
-document.addEventListener("DOMContentLoaded", )
+document.addEventListener("DOMContentLoaded", () => {
+    const signForm = document.querySelector("form.sign-up")
+    signForm.addEventListener("submit", createUser)
+})
+
+
+const createUser = (e) => {
+    e.preventDefault() 
+    const signForm = document.querySelector("form.sign-up")
+    let username = document.querySelector("input#username")
+    let password = document.querySelector("input#password")
+    let configObj = {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({username: username.value, password: password.value})
+    }
+
+    fetch("http://localhost:3000/users", configObj)
+    .then(res => res.json)
+    .then(data => console.log(data))
+
+}
 
 function getHotels(hotels) {
     fetch("http://localhost:3000/hotels")
