@@ -5,7 +5,9 @@ class UsersController < ApplicationController
     end
 
     def create 
-        binding.pry 
+        user = User.find_or_create_by(user_params)
+        session[:user_id] = user.id
+        render json: user
     end
 
     private 

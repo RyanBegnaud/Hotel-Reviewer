@@ -29,9 +29,26 @@ const createUser = (e) => {
     }
 
     fetch("http://localhost:3000/users", configObj)
-    .then(res => res.json)
-    .then(data => console.log(data))
+    .then(res => res.json())
+    .then(data => {
+        displayUser(data)
+    }
+    )
+}
 
+const displayUser = (user) => {
+    document.querySelector(".close-button").click()
+    document.querySelector("button").remove()
+
+    let main = document.querySelector("main")
+    let userDiv = document.createElement("div")
+    let h3 = document.createElement("h1")
+
+    userDiv.setAttribute("class", "user-display")
+    h3.innerHTML = `Welcome ${user.username}!`
+    userDiv.appendChild(h3)
+
+    main.appendChild(userDiv)
 }
 
 function getHotels(hotels) {
