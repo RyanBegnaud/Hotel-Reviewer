@@ -61,7 +61,32 @@ function makeHotel(hotel) {
     const body = document.querySelector("body")
     const newDiv = document.createElement("div")
     const imgArr = hotel.imgs.split(",")
-    newDiv.innerHTML = `<h2>${hotel.name}</h2><p>Located on: ${hotel.island}</p><p>Address: ${hotel.address}</p><img src=${imgArr[0]}><img src=${imgArr[1]}><br><button type="button"></button>`
+    const div = document.createElement("div")
+    const form = document.createElement("form")
+    const input = document.createElement("input")
+    const input2 = document.createElement("input")
+    const submit = document.createElement("input")
+  
+    input.setAttribute("type", "number")
+    input.setAttribute("id", `${hotel.id}`)
+    input.setAttribute("step", "0.1")
+    input.setAttribute("max", "5")
+    input.setAttribute("placeholder", "Rate 1 - 5")
+    input2.setAttribute("type", "text")
+    input2.setAttribute("id", `${hotel.id}`)
+    input2.setAttribute("placeholder", "Leave Review Here! (Optional)")
+    submit.setAttribute("type", "submit")
+
+    newDiv.innerHTML = `<br><h2>${hotel.name}</h2><p>Located on: ${hotel.island}</p><p>Address: ${hotel.address}</p><img src=${imgArr[0]}><img src=${imgArr[1]}><br><br>`
+
+    form.appendChild(input)
+    form.appendChild(input2)
+    form.appendChild(submit)
+
+    form.addEventListener("submit", createReview)
+    // div.innerHTML = `<form><input type="number" id="${hotel.id}" class="form-control" step="0.1" max="5" placeholder="Rate 1 - 5"></form>`
+    
+    newDiv.appendChild(form)
     body.append(newDiv)
 }
 
@@ -77,13 +102,10 @@ const addListeners = () => {
     signIn.addEventListener("click", alert(`<form name="sign-in"><p>Enter UserName!: <input type="text">`))
 }
 
-// const signUps = () => {
-//     const signIn = document.querySelector("button.sign-in")
-//     const signUp = document.querySelector("button.sign-up")
-//     signUp.innerHTML = "lol"
-//     signIn.addEventListener("click", showForm)
-//     signUp.addEventListener("click", showForm)   
-// }
+const createReview = (e) => {
+    e.preventDefault()
+    console.log(e.value)
+}
 
 const showForm = () => {
     
