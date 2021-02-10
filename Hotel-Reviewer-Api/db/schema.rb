@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(version: 2020_12_29_033504) do
     t.string "address"
     t.string "imgs"
     t.string "number"
+    t.integer "avg_rating"
+    t.integer "total_ratings"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

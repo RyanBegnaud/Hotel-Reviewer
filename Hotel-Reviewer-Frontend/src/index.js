@@ -66,14 +66,15 @@ function makeHotel(hotel) {
     const input = document.createElement("input")
     const input2 = document.createElement("input")
     const submit = document.createElement("input")
-  
+    
+    form.setAttribute("class", `${hotel.id}`)
     input.setAttribute("type", "number")
-    input.setAttribute("id", `${hotel.id}`)
+    input.setAttribute("hotel_id", `${hotel.id}`)
     input.setAttribute("step", "0.1")
     input.setAttribute("max", "5")
     input.setAttribute("placeholder", "Rate 1 - 5")
     input2.setAttribute("type", "text")
-    input2.setAttribute("id", `${hotel.id}`)
+    input2.setAttribute("hotel_id", `${hotel.id}`)
     input2.setAttribute("placeholder", "Leave Review Here! (Optional)")
     submit.setAttribute("type", "submit")
 
@@ -90,21 +91,25 @@ function makeHotel(hotel) {
     body.append(newDiv)
 }
 
-const addListeners = () => {
-    const signIn = document.querySelector("button.btnIn")
-    const signUp = document.querySelector("button.btnUp")
-    const form = document.createElement("form")
-    const input = document.createElement("input")
+// const addListeners = () => {
+//     const signIn = document.querySelector("button.btnIn")
+//     const signUp = document.querySelector("button.btnUp")
+//     const form = document.createElement("form")
+//     const input = document.createElement("input")
 
-    form.setAttribute("name", "sign-in")
-    input.innerHTML = "UserName:"
-    form.appendChild(input)
-    signIn.addEventListener("click", alert(`<form name="sign-in"><p>Enter UserName!: <input type="text">`))
-}
+//     form.setAttribute("name", "sign-in")
+//     input.innerHTML = "UserName:"
+//     form.appendChild(input)
+//     signIn.addEventListener("click", alert(`<form name="sign-in"><p>Enter UserName!: <input type="text">`))
+// }
 
 const createReview = (e) => {
     e.preventDefault()
-    console.log(e.value)
+    const form = e.target
+    debugger
+    console.log(e.target)
+
+    // console.log(e.target)
 }
 
 const showForm = () => {
