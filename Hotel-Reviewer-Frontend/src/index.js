@@ -37,15 +37,20 @@ const createUser = (e) => {
 }
 
 const displayUser = (user) => {
+    const userId = user.id
+    const main = document.querySelector("main")
+    const userDiv = document.createElement("div")
+    const h3 = document.createElement("h1")
+    const p = document.createElement("p")
+
     document.querySelector(".close-button").click()
     document.querySelector("button").remove()
 
-    let main = document.querySelector("main")
-    let userDiv = document.createElement("div")
-    let h3 = document.createElement("h1")
-
+    p.setAttribute("style", "display: none;")
+    p.innerHTML = userId
     userDiv.setAttribute("class", "user-display")
     h3.innerHTML = `Welcome ${user.username}!`
+    userDiv.appendChild(p)
     userDiv.appendChild(h3)
 
     main.appendChild(userDiv)
@@ -85,7 +90,6 @@ function makeHotel(hotel) {
     form.appendChild(submit)
 
     form.addEventListener("submit", createReview)
-    // div.innerHTML = `<form><input type="number" id="${hotel.id}" class="form-control" step="0.1" max="5" placeholder="Rate 1 - 5"></form>`
     
     newDiv.appendChild(form)
     body.append(newDiv)
@@ -106,12 +110,26 @@ function makeHotel(hotel) {
 const createReview = (e) => {
     e.preventDefault()
     const form = e.target
-    debugger
-    console.log(e.target)
-
-    // console.log(e.target)
+    const input = form['0']
+    const p = document.querySelector("div.user-display p")
+    let userId = null  
+    if(p) {
+        userId = p.innerHTML
+    }
+    const configObj = {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({hotel_id: form.className, rating: input.value, user_id: userId})
+    }
+    fetch('http://localhost:3000/reviews', configObj)
+    .then(res => res.json())
+    .then(data => updateRating(data))
 }
 
-const showForm = () => {
-    
+function updateRating(data) {
+    console.log(data)
+
 }

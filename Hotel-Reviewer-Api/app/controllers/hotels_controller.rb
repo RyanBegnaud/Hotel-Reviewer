@@ -6,6 +6,7 @@ class HotelsController < ApplicationController
 
     def show 
         hotel = Hotel.find_by(id: params[:id])
+        binding.pry
         render json: hotel
     end
 end

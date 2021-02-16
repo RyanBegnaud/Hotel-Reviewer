@@ -6,11 +6,11 @@ class ReviewsController < ApplicationController
 
     def create
         if params[:user_id] == nil 
-            flash[:notice] = "Must be signed in to leave a review"
+            error = "Must be signed in to leave a review"
+            render json: error
         else 
             review = Review.create(review_params)
             hotel = Hotel.find_by(id: params[:hotel_id])
-            hotel.total_ratings 
             render json: review 
         end
     end
