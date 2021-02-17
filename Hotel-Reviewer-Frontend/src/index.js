@@ -65,12 +65,14 @@ function getHotels(hotels) {
 function makeHotel(hotel) {
     const body = document.querySelector("body")
     const newDiv = document.createElement("div")
+    const ratingDiv = document.createElement("div")
     const imgArr = hotel.imgs.split(",")
     const div = document.createElement("div")
     const form = document.createElement("form")
     const input = document.createElement("input")
     const input2 = document.createElement("input")
     const submit = document.createElement("input")
+
     
     form.setAttribute("class", `${hotel.id}`)
     input.setAttribute("type", "number")
@@ -82,47 +84,54 @@ function makeHotel(hotel) {
     input2.setAttribute("hotel_id", `${hotel.id}`)
     input2.setAttribute("placeholder", "Leave Review Here! (Optional)")
     submit.setAttribute("type", "submit")
-
+    ratingDiv.setAttribute("class", "hotel_rating")
+    newDiv.setAttribute("class", "review")
+    
+    ratingDiv.innerHTML = `Hotel Rating: ${hotel.average_rating}<br><br>`
     newDiv.innerHTML = `<br><h2>${hotel.name}</h2><p>Located on: ${hotel.island}</p><p>Address: ${hotel.address}</p><img src=${imgArr[0]}><img src=${imgArr[1]}><br><br>`
-
+    
+    for (const review in hotel.reviews) {
+        if (review.review_text != null) {
+            const pageReview = document.createElement(p)
+            pageReview.innerHTML = review.review_text
+            newDiv.appendChild(pageReview)
+        }
+    }
     form.appendChild(input)
     form.appendChild(input2)
     form.appendChild(submit)
 
     form.addEventListener("submit", createReview)
     
+    newDiv.appendChild(ratingDiv)
     newDiv.appendChild(form)
     body.append(newDiv)
 }
 
-// const addListeners = () => {
-//     const signIn = document.querySelector("button.btnIn")
-//     const signUp = document.querySelector("button.btnUp")
-//     const form = document.createElement("form")
-//     const input = document.createElement("input")
-
-//     form.setAttribute("name", "sign-in")
-//     input.innerHTML = "UserName:"
-//     form.appendChild(input)
-//     signIn.addEventListener("click", alert(`<form name="sign-in"><p>Enter UserName!: <input type="text">`))
-// }
 
 const createReview = (e) => {
     e.preventDefault()
     const form = e.target
     const input = form['0']
     const p = document.querySelector("div.user-display p")
-    let userId = null  
+    let reviewText = null 
+    let userId = null 
+
+    if(form['1'].value != null) {
+        reviewText = form['1'].value
+    }
+
     if(p) {
         userId = p.innerHTML
     }
+
     const configObj = {
         method: "POST",
         headers: {
             "Content-type": "application/json",
             "Accept": "application/json"
         },
-        body: JSON.stringify({hotel_id: form.className, rating: input.value, user_id: userId})
+        body: JSON.stringify({hotel_id: form.className, rating: input.value, user_id: userId, review_text: reviewText})
     }
     fetch('http://localhost:3000/reviews', configObj)
     .then(res => res.json())

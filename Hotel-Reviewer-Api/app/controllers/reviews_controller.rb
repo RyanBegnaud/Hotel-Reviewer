@@ -9,6 +9,7 @@ class ReviewsController < ApplicationController
             error = "Must be signed in to leave a review"
             render json: error
         else 
+            binding.pry 
             review = Review.create(review_params)
             hotel = Hotel.find_by(id: params[:hotel_id])
             render json: review 
