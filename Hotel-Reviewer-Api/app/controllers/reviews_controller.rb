@@ -8,11 +8,15 @@ class ReviewsController < ApplicationController
         if params[:user_id] == nil 
             error = "Must be signed in to leave a review"
             render json: error
-        else 
-            binding.pry 
+        elsif params[:review_text] == nil
             review = Review.create(review_params)
-            hotel = Hotel.find_by(id: params[:hotel_id])
             render json: review 
+        else 
+            review = Review.create(review_params) 
+            review.review_text = params[:review_text]
+            review.save 
+            render json: review 
+
         end
     end
 

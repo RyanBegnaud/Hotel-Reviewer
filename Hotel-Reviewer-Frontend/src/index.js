@@ -3,11 +3,6 @@ const proxyurl = "https://cors-anywhere.herokuapp.com/";
 
 document.addEventListener('DOMContentLoaded', getHotels())
 
-// document.addEventListener("DOMContentLoaded", () =>{
-//     const signIn = document.querySelector("button.btnIn")
-//     signIn.addEventListener("click", () => addListeners())
-// })
-
 document.addEventListener("DOMContentLoaded", () => {
     const signForm = document.querySelector("form.sign-up")
     signForm.addEventListener("submit", createUser)
@@ -90,20 +85,22 @@ function makeHotel(hotel) {
     ratingDiv.innerHTML = `Hotel Rating: ${hotel.average_rating}<br><br>`
     newDiv.innerHTML = `<br><h2>${hotel.name}</h2><p>Located on: ${hotel.island}</p><p>Address: ${hotel.address}</p><img src=${imgArr[0]}><img src=${imgArr[1]}><br><br>`
     
-    for (const review in hotel.reviews) {
-        if (review.review_text != null) {
-            const pageReview = document.createElement(p)
-            pageReview.innerHTML = review.review_text
-            newDiv.appendChild(pageReview)
-        }
-    }
     form.appendChild(input)
     form.appendChild(input2)
     form.appendChild(submit)
-
+    
     form.addEventListener("submit", createReview)
     
     newDiv.appendChild(ratingDiv)
+    
+    for (const review of hotel.reviews) {
+        if (review.review_text != null) {
+            const pageReview = document.createElement("p")
+            pageReview.innerHTML = `<h3>${review.user.username}</h3> rated this hotel ${review.rating} stars and had this to say about their stay: <br><br> ${review.review_text}`
+            newDiv.appendChild(pageReview)
+        }
+    }
+
     newDiv.appendChild(form)
     body.append(newDiv)
 }
