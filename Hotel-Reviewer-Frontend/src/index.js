@@ -25,9 +25,7 @@ const createUser = (e) => {
 
     fetch("http://localhost:3000/users", configObj)
     .then(res => res.json())
-    .then(data => {
-        displayUser(data)
-    }
+    .then(data => {displayUser(data)}
     )
 }
 
