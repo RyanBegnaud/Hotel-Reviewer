@@ -7,7 +7,7 @@ class CreateHotels < ActiveRecord::Migration[6.0]
       t.string :address
       t.string :imgs
       t.string :number
-      t.integer :avg_rating
+      t.float :avg_rating
       t.integer :total_ratings
 
       t.timestamps

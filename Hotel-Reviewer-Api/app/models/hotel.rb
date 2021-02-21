@@ -10,8 +10,8 @@ class Hotel < ApplicationRecord
         
         if self.reviews.empty?
             return "No reviews yet"
-        else 
-            return ratings / self.reviews.length
+        else
+            return ratings / self.reviews.length.to_f
         end
     end
 end
