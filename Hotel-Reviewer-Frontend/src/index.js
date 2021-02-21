@@ -29,6 +29,7 @@ const createUser = (e) => {
 }
 
 const displayUser = (user) => {
+    debugger
     const userId = user.id
     const main = document.querySelector("main")
     const userDiv = document.createElement("div")
@@ -97,11 +98,12 @@ function makeHotel(hotel) {
         if (review.review_text != null) {
             const pageReview = document.createElement("p")
             const button = document.createElement("button")
-            debugger
+           
+            pageReview.setAttribute("class", `review_id${review.id}`)
             button.setAttribute("id", "delete")
-            button.setAttribute("class", `${review.id}`)
+            button.setAttribute("class", review.id)
             button.innerHTML = "Delete Review"
-            button.addEventListener("click", deleteReview)
+            button.addEventListener("click", getReview)
 
             pageReview.innerHTML = `<h3>${review.user.username}</h3> rated this hotel ${review.rating} stars and had this to say about their stay: <br><br> ${review.review_text}<br><br>`
             pageReview.appendChild(button)
@@ -148,7 +150,16 @@ function updateRating(data) {
 
     if (data.review_text != null) {
         const pageReview = document.createElement("p")
+        const button = document.createElement("button")
+        
+        button.setAttribute("id", "delete")
+        button.setAttribute("class", data.id)
+        
+        button.innerHTML = "Delete Review"
         pageReview.innerHTML = `<h3>${data.user.username}</h3> rated this hotel ${data.rating} stars and had this to say about their stay: <br><br> ${data.review_text}`
+        
+        button.addEventListener("click", getReview)
+        pageReview.appendChild(button)
         formDiv.appendChild(pageReview)
     }
     
@@ -166,6 +177,38 @@ function updateHotelAvg(hotel) {
    p.innerHTML = `<h3>Hotel Average Rating: ${hotel.average_rating}</h3><br>`
 }
 
-function deleteReview(e) {
-    debugger 
+function getReview(e) {
+    e.preventDefault()
+    const reviewId = e.target.className
+    const configObj = {
+        method: "DELETE", 
+        headers: {
+        "Content-type": "application/json",
+        "Accept": "application/json" }}
+
+    fetch(`http://localhost:3000/reviews/${reviewId}`) 
+    .then(res => res.json())
+    .then(review => deleteReview(review))
+} 
+
+ 
+
+function deleteReview(review) {
+    const currentUser = document.querySelector("div.user-display p")
+    const configObj = {
+        method: "DELETE", 
+        headers: {
+        "Content-type": "application/json",
+        "Accept": "application/json" 
+    }}
+
+    debugger
+    if(currentUser === null) {
+        alert("Must Be Signed in to delete reviews!")
+    }else if(review.user.id != currentUser.innerHTML) {
+        alert("You can only delete reviews you've posted")
+    }else{
+        fetch(`http://localhost:3000/reviews/${reviewId}`, configObj)
+        e.target.parentElement.remove()
+    }
 }
