@@ -96,7 +96,15 @@ function makeHotel(hotel) {
     for (const review of hotel.reviews) {
         if (review.review_text != null) {
             const pageReview = document.createElement("p")
-            pageReview.innerHTML = `<h3>${review.user.username}</h3> rated this hotel ${review.rating} stars and had this to say about their stay: <br><br> ${review.review_text}`
+            const button = document.createElement("button")
+            debugger
+            button.setAttribute("id", "delete")
+            button.setAttribute("class", `${review.id}`)
+            button.innerHTML = "Delete Review"
+            button.addEventListener("click", deleteReview)
+
+            pageReview.innerHTML = `<h3>${review.user.username}</h3> rated this hotel ${review.rating} stars and had this to say about their stay: <br><br> ${review.review_text}<br><br>`
+            pageReview.appendChild(button)
             newDiv.appendChild(pageReview)
         }
     }
@@ -156,4 +164,8 @@ function getNewAverage(hotel) {
 function updateHotelAvg(hotel) {
    const p = document.querySelector(`.p${hotel.id}`)
    p.innerHTML = `<h3>Hotel Average Rating: ${hotel.average_rating}</h3><br>`
+}
+
+function deleteReview(e) {
+    debugger 
 }
