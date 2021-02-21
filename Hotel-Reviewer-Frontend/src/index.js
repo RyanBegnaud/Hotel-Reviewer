@@ -1,5 +1,4 @@
 const hotelUrl = "http://localhost:3000/hotels"
-const proxyurl = "https://cors-anywhere.herokuapp.com/";
 
 document.addEventListener('DOMContentLoaded', getHotels())
 
@@ -58,15 +57,17 @@ function getHotels(hotels) {
 function makeHotel(hotel) {
     const body = document.querySelector("body")
     const newDiv = document.createElement("div")
-    const ratingDiv = document.createElement("div")
     const imgArr = hotel.imgs.split(",")
     const div = document.createElement("div")
     const form = document.createElement("form")
     const input = document.createElement("input")
     const input2 = document.createElement("input")
     const submit = document.createElement("input")
+    const hotelAvg = document.createElement("p")
 
-    
+
+
+    hotelAvg.setAttribute("id", `${hotel.id}`)
     form.setAttribute("class", `${hotel.id}`)
     input.setAttribute("type", "number")
     input.setAttribute("hotel_id", `${hotel.id}`)
@@ -77,11 +78,13 @@ function makeHotel(hotel) {
     input2.setAttribute("hotel_id", `${hotel.id}`)
     input2.setAttribute("placeholder", "Leave Review Here! (Optional)")
     submit.setAttribute("type", "submit")
-    ratingDiv.setAttribute("class", "hotel_rating")
-    newDiv.setAttribute("class", "review")
+    newDiv.setAttribute("class", `form${hotel.id}`)
     
-    ratingDiv.innerHTML = `Hotel Rating: ${hotel.average_rating}<br><br>`
+   
     newDiv.innerHTML = `<br><h2>${hotel.name}</h2><p>Located on: ${hotel.island}</p><p>Address: ${hotel.address}</p><img src=${imgArr[0]}><img src=${imgArr[1]}><br><br>`
+    hotelAvg.innerHTML= `<h3>Hotel Average Rating: ${hotel.average_rating}</h3><br>`
+    newDiv.appendChild(hotelAvg)
+
     
     form.appendChild(input)
     form.appendChild(input2)
@@ -89,7 +92,6 @@ function makeHotel(hotel) {
     
     form.addEventListener("submit", createReview)
     
-    newDiv.appendChild(ratingDiv)
     
     for (const review of hotel.reviews) {
         if (review.review_text != null) {
@@ -134,6 +136,23 @@ const createReview = (e) => {
 }
 
 function updateRating(data) {
-    console.log(data)
+    const formDiv = document.querySelector(`.form${data.hotel.id}`)
 
+    if (data.review_text != null) {
+        const pageReview = document.createElement("p")
+        pageReview.innerHTML = `<h3>${data.user.username}</h3> rated this hotel ${data.rating} stars and had this to say about their stay: <br><br> ${data.review_text}`
+        formDiv.appendChild(pageReview)
+    }
+    
+    getNewAverage(data.hotel)
+
+}
+
+function getNewAverage(hotel) {
+    fetch(`http://localhost:3000/hotels/${hotel.id}`)
+    .then(res => res.json())
+    .then(hotel => updateHotelAvg(hotel))
+}
+function updateHotelAvg(hotel) {
+    debugger
 }
