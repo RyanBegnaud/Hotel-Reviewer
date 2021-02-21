@@ -67,7 +67,7 @@ function makeHotel(hotel) {
 
 
 
-    hotelAvg.setAttribute("id", `${hotel.id}`)
+    hotelAvg.setAttribute("class", `p${hotel.id}`)
     form.setAttribute("class", `${hotel.id}`)
     input.setAttribute("type", "number")
     input.setAttribute("hotel_id", `${hotel.id}`)
@@ -154,5 +154,6 @@ function getNewAverage(hotel) {
     .then(hotel => updateHotelAvg(hotel))
 }
 function updateHotelAvg(hotel) {
-    debugger
+   const p = document.querySelector(`.p${hotel.id}`)
+   p.innerHTML = `<h3>Hotel Average Rating: ${hotel.average_rating}</h3><br>`
 }
