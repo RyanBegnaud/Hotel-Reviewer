@@ -1,10 +1,11 @@
 const hotelUrl = "http://localhost:3000/hotels"
 
 document.addEventListener('DOMContentLoaded', getHotels())
-
 document.addEventListener("DOMContentLoaded", () => {
-    const signForm = document.querySelector("form.sign-up")
-    signForm.addEventListener("submit", createUser)
+    const signUp = document.querySelector("input.sign-up-btn")
+    const signIn = document.querySelector("input.sign-in-btn")
+    signUp.addEventListener("submit", createUser)
+    // signIn.addEventListener("submit")
 })
 
 

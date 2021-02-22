@@ -5,9 +5,14 @@ class UsersController < ApplicationController
     end
 
     def create 
-        user = User.find_or_create_by(user_params)
-        
-        render json: user
+        user = User.find_by(username: params[:username]) 
+        binding.pry 
+        if user && user.authenticate(params[:password])
+            render json: user 
+        else 
+            flash[:notice] = "No user found with those credentials"
+            render 'new'
+        end
     end
 
     private 
