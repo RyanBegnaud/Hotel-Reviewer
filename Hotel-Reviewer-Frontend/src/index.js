@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', getHotels())
 document.addEventListener("DOMContentLoaded", () => {
     const signUp = document.querySelector("input.sign-up-btn")
     const signIn = document.querySelector("input.sign-in-btn")
-    signUp.addEventListener("submit", createUser)
+    signUp.addEventListener("click", createUser)
     // signIn.addEventListener("submit")
 })
 
@@ -25,12 +25,14 @@ const createUser = (e) => {
 
     fetch("http://localhost:3000/users", configObj)
     .then(res => res.json())
-    .then(data => {displayUser(data)}
-    )
+    .then(data => displayUser(data))
+    .catch(error => console.log(error))
 }
 
 const displayUser = (user) => {
-    debugger
+    if(user["error"]) {
+        alert(user["error"])
+    }else{
     const userId = user.id
     const main = document.querySelector("main")
     const userDiv = document.createElement("div")
@@ -49,7 +51,7 @@ const displayUser = (user) => {
 
     main.appendChild(userDiv)
 }
-
+}
 function getHotels(hotels) {
     fetch("http://localhost:3000/hotels")
     .then(resp => resp.json())

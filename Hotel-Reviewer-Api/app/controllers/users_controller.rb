@@ -5,13 +5,16 @@ class UsersController < ApplicationController
     end
 
     def create 
-        user = User.find_by(username: params[:username]) 
-        binding.pry 
-        if user && user.authenticate(params[:password])
-            render json: user 
+        user1 = User.find_by(username: params[:username])
+        if user1 
+            error = {error: "User already exsists with that username please try again!"}
+            render json: error 
+        elsif params[:password] == ""
+            error = {error: "Password is required"}
+            render json: error
         else 
-            flash[:notice] = "No user found with those credentials"
-            render 'new'
+            user = User.create(user_params)
+            render json: user
         end
     end
 
