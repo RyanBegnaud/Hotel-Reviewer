@@ -14,7 +14,19 @@ class UsersController < ApplicationController
             render json: error
         else 
             user = User.create(user_params)
+            user.password = params[:password]
+            user.save
             render json: user
+        end
+    end
+
+    def sign_in
+        user = User.find_by(username: params[:username])
+        if user && user.authenticate(params[:password])
+            binding.pry 
+        else 
+            error = {error: "No user found with that Username"}
+            render json: error
         end
     end
 

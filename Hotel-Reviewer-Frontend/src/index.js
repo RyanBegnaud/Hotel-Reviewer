@@ -5,9 +5,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const signUp = document.querySelector("input.sign-up-btn")
     const signIn = document.querySelector("input.sign-in-btn")
     signUp.addEventListener("click", createUser)
-    // signIn.addEventListener("submit")
+    signIn.addEventListener("click", signInUser)
 })
 
+const signInUser = (e) => {
+    e.preventDefault() 
+    const signForm = document.querySelector("form.sign-up")
+    let username = document.querySelector("input#username")
+    let password = document.querySelector("input#password")
+    let configObj = {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({username: username.value, password: password.value})
+    }
+
+    fetch("http://localhost:3000/sign-in", configObj)
+    .then(res => res.json())
+    .then(user => displayUser(user))
+}
 
 const createUser = (e) => {
     e.preventDefault() 
@@ -30,28 +48,30 @@ const createUser = (e) => {
 }
 
 const displayUser = (user) => {
+   
     if(user["error"]) {
         alert(user["error"])
-    }else{
-    const userId = user.id
-    const main = document.querySelector("main")
-    const userDiv = document.createElement("div")
-    const h3 = document.createElement("h1")
-    const p = document.createElement("p")
+    } else {
+        const userId = user.id
+        const main = document.querySelector("main")
+        const userDiv = document.createElement("div")
+        const h3 = document.createElement("h1")
+        const p = document.createElement("p")
 
-    document.querySelector(".close-button").click()
-    document.querySelector("button").remove()
+        document.querySelector(".close-button").click()
+        document.querySelector("button").remove()
 
-    p.setAttribute("style", "display: none;")
-    p.innerHTML = userId
-    userDiv.setAttribute("class", "user-display")
-    h3.innerHTML = `Welcome ${user.username}!`
-    userDiv.appendChild(p)
-    userDiv.appendChild(h3)
+        p.setAttribute("style", "display: none;")
+        p.innerHTML = userId
+        userDiv.setAttribute("class", "user-display")
+        h3.innerHTML = `Welcome ${user.username}!`
+        userDiv.appendChild(p)
+        userDiv.appendChild(h3)
 
-    main.appendChild(userDiv)
+        main.appendChild(userDiv)
+    }
 }
-}
+
 function getHotels(hotels) {
     fetch("http://localhost:3000/hotels")
     .then(resp => resp.json())
