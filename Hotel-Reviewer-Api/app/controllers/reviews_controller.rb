@@ -6,7 +6,7 @@ class ReviewsController < ApplicationController
 
     def create
         if params[:user_id] == nil 
-            error = "Must be signed in to leave a review"
+            error = {error: "Must be signed in to leave a review"}
             render json: error
         elsif params[:review_text] == nil
             review = Review.create(review_params)
@@ -23,6 +23,11 @@ class ReviewsController < ApplicationController
     def show 
         review = Review.find_by(id: params[:id])
         render json: review
+    end
+
+    def destroy 
+        review = Review.find(params[:id])
+        review.delete
     end
 
     private 

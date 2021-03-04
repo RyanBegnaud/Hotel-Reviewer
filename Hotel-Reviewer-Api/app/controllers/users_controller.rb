@@ -22,12 +22,18 @@ class UsersController < ApplicationController
 
     def sign_in
         user = User.find_by(username: params[:username])
+
         if user && user.authenticate(params[:password])
-            binding.pry 
+            session[:user_id] = user.id
+            render json: user
         else 
-            error = {error: "No user found with that Username"}
+            error = {error: "No user found with that Username or Password is incorrect"}
             render json: error
         end
+    end
+
+    def destroy
+       session[:user_id].clear 
     end
 
     private 
