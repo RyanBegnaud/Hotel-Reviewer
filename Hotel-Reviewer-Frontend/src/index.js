@@ -70,9 +70,7 @@ class Hotel {
                 
                 pageReview.setAttribute("class", `review_id${review.id}`)
                 button.setAttribute("id", `delete${review.id}`)
-                button.setAttribute("class", review.id)
-                debugger
-                button.setAttribute("user_id", review.user.id)
+                button.setAttribute("class", review.user.id)
                 button.innerHTML = "Delete Review"
                 button.addEventListener("click", deleteReview)
                 
@@ -242,14 +240,14 @@ function updateRating(data) {
 
     let newReview = new Review(data.rating, data.review_text, data.hotel.id, data.user.id)
     const formDiv = document.querySelector(`.form${newReview.hotelId}`)
+    debugger
 
     if (newReview.reviewText != null) {
         const pageReview = document.createElement("p")
         const button = document.createElement("button")
         
         button.setAttribute("id", `delete${data.id}`)
-        button.setAttribute("class", data.id)
-        button.setAttribute("user_id", newReview.userId)
+        button.setAttribute("class", newReview.userId)
         
         button.innerHTML = "Delete Review"
         pageReview.innerHTML = `<h3>${data.user.username}</h3> rated this hotel ${newReview.rating} stars and had this to say about their stay: <br><br> ${newReview.reviewText}<br><br>`
@@ -276,22 +274,22 @@ function updateHotelAvg(hotel) {
 
 function deleteReview(e) {
     const currentUser = document.querySelector("div.user-display p")
-    const id = e.target.className
+    const userId = e.target.className
+    const reviewId = e.target.id.split("e")[3]
     const configObj = {
         method: "DELETE", 
         headers: {
         "Content-type": "application/json",
         "Accept": "application/json" 
     }}
-    // debugger
-    // if(currentUser === null) {
-    //     alert("Must Be Signed in to delete reviews!")
-    // }else if(review.user.id != currentUser.innerHTML) {
-    //     alert("You can only delete reviews you've posted")
-    // }else{
-        debugger
-        const button = document.querySelector(`button#delete${id}`)
+    
+    if(currentUser === null) {
+        alert("Must Be Signed in to delete reviews!")
+    }else if(userId != currentUser.innerHTML) {
+        alert("You can only delete reviews you've posted")
+    }else{
+        const button = document.querySelector(`button#delete${reviewId}`)
         button.parentElement.remove()
-        fetch(`http://localhost:3000/reviews/${id}`, configObj)
+        fetch(`http://localhost:3000/reviews/${reviewId}`, configObj)
     }
-// }
+}
